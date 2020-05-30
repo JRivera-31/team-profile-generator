@@ -42,3 +42,8 @@ N/A
 ```
 npm run test
 ```
+Demo video: https://youtu.be/EeuUHHDIYCY
+
+Example Output:
+
+<img src="assets/Example.png" style="width: 800px;">
