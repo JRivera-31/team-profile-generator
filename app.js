@@ -51,7 +51,7 @@ const employeePrompt = () => { // Prompts for employee info
         })
 }
 
-const managerPrompt = managerAnswers => {
+const managerPrompt = manager => {
     inquirer
         .prompt([
             {
@@ -59,27 +59,34 @@ const managerPrompt = managerAnswers => {
                 message: "What is your office number?",
                 name: "officenumber"
             }
-        ]).then(answers => {
-            managerAnswers.officeNumber = answers.officeNumber
+        ])
+        .then(answers => {
+            manager.officeNumber = answers.officenumber
 
-            addEmployee(managerAnswers)
+            addEmployee(manager)
         })
 }
 
 const addEmployee = employee => {
+    console.log(employee)
     inquirer // Ask to add more employees
         .prompt([
             {
                 type: "confirm",
                 message: "Would you like to add more employees?",
                 name: "again"
-            }.then(response => { // Push user input to employee object arrays
+            }
+            .then(confirm => { // Push user reponses to new employee object array
                 if (employee.role === "Manager") {
-                    employees.push(new Manager(employee.name, employee.id, employee.email, employee.role, employee.officenumber))
+                    employees.push(new Manager(employee.name, employee.id, employee.email, employee.role, employee.officeNumber))
+                } else if (employee.role === "Engineer") {
+                    employees.push(new Engineer(employee.name, employee.id, employee.email, employee.role, employee.gitHub))
+                } else {
+                    employees.push(new Intern(employee.name, employee.id, employee.email, employee.role, employee.school))
                 }
 
                 // Display employee prompt if confirmed to add more employees
-                if (response.again == true) {
+                if (confirm.again == true) {
                     employeePrompt()
                 }
             })
