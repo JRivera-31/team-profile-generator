@@ -15,7 +15,7 @@ const employees = []
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!
-const employeePrompt = () => {
+const employeePrompt = () => { // Prompts for employee info
     inquirer
         .prompt([
             {
@@ -40,7 +40,7 @@ const employeePrompt = () => {
                 name: "role"
             }
         ])
-        .then(answers => {
+        .then(answers => { // Displays different prompts by role
             if (answers.role === "Manager") {
                 managerPrompt(answers)
             } else if (answers.role === "Engineer") {
@@ -57,13 +57,33 @@ const managerPrompt = managerAnswers => {
             {
                 type: "input",
                 message: "What is your office number?",
-                name: "officeNumber"
+                name: "officenumber"
             }
         ]).then(answers => {
             managerAnswers.officeNumber = answers.officeNumber
 
             addEmployee(managerAnswers)
         })
+}
+
+const addEmployee = employee => {
+    inquirer // Ask to add more employees
+        .prompt([
+            {
+                type: "confirm",
+                message: "Would you like to add more employees?",
+                name: "again"
+            }.then(response => { // Push user input to employee object arrays
+                if (employee.role === "Manager") {
+                    employees.push(new Manager(employee.name, employee.id, employee.email, employee.role, employee.officenumber))
+                }
+
+                // Display employee prompt if confirmed to add more employees
+                if (response.again == true) {
+                    employeePrompt()
+                }
+            })
+        ])
 }
 
 employeePrompt()
