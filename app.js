@@ -56,7 +56,7 @@ const engineerPrompt = engineer => {
         .prompt([
             {
                 type: "input",
-                message: "What is your Github username",
+                message: "What is their Github username",
                 name: "github"
             }
         ])
@@ -77,7 +77,7 @@ const managerPrompt = manager => {
         .prompt([
             {
                 type: "input",
-                message: "What is your office number?",
+                message: "What is their office number?",
                 name: "officenumber"
             }
         ])
@@ -98,7 +98,7 @@ const internPrompt = intern => {
         .prompt([
             {
                 type: "input",
-                message: "What is your school?",
+                message: "What is their school?",
                 name: "school"
             }
         ])
@@ -124,23 +124,23 @@ const addEmployee = () => {
                 message: "Would you like to add more employees?",
                 name: "choice"
             }
-            .then(answer => { 
-                // Display employee prompt if confirmed to add more employees
-                if (answer.choice) {
-                    employeePrompt()
-                } else {
-                    // Render html file if done adding employees
-                    let renderHTML = render(employees)
-                    fs.writeFile(outputPath, renderHTML, "utf8", err => {
-                        if (err) {
-                            throw err
-                        } else {
-                            console.log("Sucess")
-                        }
-                    })
-                }
-            })
         ])
+        .then(answer => { 
+                // Display employee prompt if confirmed to add more employees
+            if (answer.choice) {
+                employeePrompt()
+            } else {
+                // Render html file if done adding employees
+                let renderHTML = render(employees)
+                fs.writeFile(outputPath, renderHTML, "utf8", err => {
+                    if (err) {
+                        throw err
+                    } else {
+                        console.log("Success")
+                    }
+                })
+            }
+        })
 }
 
 employeePrompt()
