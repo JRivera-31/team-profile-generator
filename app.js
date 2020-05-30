@@ -51,6 +51,22 @@ const employeePrompt = () => { // Prompts for employee info
         })
 }
 
+const engineerPrompt = engineer => {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What is your Github username",
+                name: "github"
+            }
+        ])
+        .then(answers => {
+            engineer.gitHub = answers.github
+
+            addEmployee(engineer)
+        })
+}
+
 const managerPrompt = manager => {
     inquirer
         .prompt([
@@ -66,6 +82,23 @@ const managerPrompt = manager => {
             addEmployee(manager)
         })
 }
+
+const internPrompt = intern => {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What is your school?",
+                name: "school"
+            }
+        ])
+        .then(answers => {
+            intern.school = answers.school
+
+            addEmployee(intern)
+        })
+}
+
 
 const addEmployee = employee => {
     console.log(employee)
