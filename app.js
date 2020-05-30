@@ -61,9 +61,14 @@ const engineerPrompt = engineer => {
             }
         ])
         .then(answers => {
+            // Save answer to engineer object
             engineer.gitHub = answers.github
 
-            addEmployee(engineer)
+            // Push new engineer object to array
+            employees.push(new Engineer(engineer.name, engineer.id, engineer.email, engineer.role, engineer.gitHub))
+
+            // Call add employee method
+            addEmployee()
         })
 }
 
@@ -77,9 +82,14 @@ const managerPrompt = manager => {
             }
         ])
         .then(answers => {
+            // Save answer to manager object 
             manager.officeNumber = answers.officenumber
 
-            addEmployee(manager)
+            // Push new manager object to employees array
+            employees.push(new Manager(manager.name, manager.id, manager.email, manager.role, manager.officeNumber))
+
+            // Call add employee method
+            addEmployee()
         })
 }
 
@@ -93,34 +103,41 @@ const internPrompt = intern => {
             }
         ])
         .then(answers => {
+            // Save answer to intern object 
             intern.school = answers.school
 
-            addEmployee(intern)
+            // Push new intern to employees array
+            employees.push(new Intern(intern.name, intern.id, intern.email, intern.role, intern.school))
+
+            // Call add employee method
+            addEmployee();
         })
 }
 
 
-const addEmployee = employee => {
-    console.log(employee)
-    inquirer // Ask to add more employees
+const addEmployee = () => {
+    // Ask to add more employees
+    inquirer
         .prompt([
             {
                 type: "confirm",
                 message: "Would you like to add more employees?",
-                name: "again"
+                name: "choice"
             }
-            .then(confirm => { // Push user reponses to new employee object array
-                if (employee.role === "Manager") {
-                    employees.push(new Manager(employee.name, employee.id, employee.email, employee.role, employee.officeNumber))
-                } else if (employee.role === "Engineer") {
-                    employees.push(new Engineer(employee.name, employee.id, employee.email, employee.role, employee.gitHub))
-                } else {
-                    employees.push(new Intern(employee.name, employee.id, employee.email, employee.role, employee.school))
-                }
-
+            .then(answer => { 
                 // Display employee prompt if confirmed to add more employees
-                if (confirm.again == true) {
+                if (answer.choice) {
                     employeePrompt()
+                } else {
+                    // Render html file if done adding employees
+                    let renderHTML = render(employees)
+                    fs.writeFile(outputPath, renderHTML, "utf8", err => {
+                        if (err) {
+                            throw err
+                        } else {
+                            console.log("Sucess")
+                        }
+                    })
                 }
             })
         ])
